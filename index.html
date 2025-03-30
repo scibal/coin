@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据相加与频率计算</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .data-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .data-group {
+            margin-right: 30px;
+        }
+        h2 {
+            margin-top: 0;
+        }
+        table {
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        input {
+            width: 60px;
+            text-align: center;
+        }
+        .result {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .frequency-table {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>数据相加与频率计算</h1>
+    
+    <div class="data-container">
+        <div class="data-group">
+            <h2>次数</h2>
+            <table id="attempts-table">
+                <tr>
+                    <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th>
+                </tr>
+                <tr>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                </tr>
+                <tr>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                    <td><input type="number" class="attempt-input" oninput="calculate()"></td>
+                </tr>
+            </table>
+            <div class="result">总次数: <span id="attempts-sum">0</span></div>
+        </div>
+        
+        <div class="data-group">
+            <h2>正面朝上的次数</h2>
+            <table id="success-table">
+                <tr>
+                    <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th>
+                </tr>
+                <tr>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                </tr>
+                <tr>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                    <td><input type="number" class="success-input" oninput="calculate()"></td>
+                </tr>
+            </table>
+            <div class="result">正面朝上总数: <span id="success-sum">0</span></div>
+        </div>
+    </div>
+    
+    <div class="frequency-table">
+        <h2>正面朝上的频率</h2>
+        <table id="frequency-table">
+            <tr>
+                <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th>
+            </tr>
+            <tr>
+                <td><span id="freq-1">0</span></td>
+                <td><span id="freq-2">0</span></td>
+                <td><span id="freq-3">0</span></td>
+                <td><span id="freq-4">0</span></td>
+                <td><span id="freq-5">0</span></td>
+                <td><span id="freq-6">0</span></td>
+                <td><span id="freq-7">0</span></td>
+                <td><span id="freq-8">0</span></td>
+                <td><span id="freq-9">0</span></td>
+            </tr>
+            <tr>
+                <td><span id="freq-10">0</span></td>
+                <td><span id="freq-11">0</span></td>
+                <td><span id="freq-12">0</span></td>
+                <td><span id="freq-13">0</span></td>
+                <td><span id="freq-14">0</span></td>
+                <td><span id="freq-15">0</span></td>
+                <td><span id="freq-16">0</span></td>
+                <td><span id="freq-17">0</span></td>
+                <td><span id="freq-18">0</span></td>
+            </tr>
+        </table>
+        <div class="result">总频率: <span id="total-frequency">0</span></div>
+    </div>
+
+    <script>
+        function calculate() {
+            // 计算总次数
+            const attemptInputs = document.getElementsByClassName('attempt-input');
+            let attemptsSum = 0;
+            for (let i = 0; i < attemptInputs.length; i++) {
+                const value = parseFloat(attemptInputs[i].value) || 0;
+                attemptsSum += value;
+            }
+            document.getElementById('attempts-sum').textContent = attemptsSum;
+            
+            // 计算正面朝上总次数
+            const successInputs = document.getElementsByClassName('success-input');
+            let successSum = 0;
+            for (let i = 0; i < successInputs.length; i++) {
+                const value = parseFloat(successInputs[i].value) || 0;
+                successSum += value;
+            }
+            document.getElementById('success-sum').textContent = successSum;
+            
+            // 计算每个频率
+            for (let i = 0; i < attemptInputs.length; i++) {
+                const attempt = parseFloat(attemptInputs[i].value) || 0;
+                const success = parseFloat(successInputs[i].value) || 0;
+                let frequency = 0;
+                
+                if (attempt > 0) {
+                    frequency = success / attempt;
+                }
+                
+                document.getElementById(`freq-${i+1}`).textContent = frequency.toFixed(4);
+            }
+            
+            // 计算总频率
+            let totalFrequency = 0;
+            if (attemptsSum > 0) {
+                totalFrequency = successSum / attemptsSum;
+            }
+            document.getElementById('total-frequency').textContent = totalFrequency.toFixed(4);
+        }
+    </script>
+</body>
+</html>
